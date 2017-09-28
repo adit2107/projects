@@ -17,7 +17,7 @@ module.exports = function(app) {
 
   app.post('/todo', urlencodedParser, (req, res) => {
     data.push(req.body);
-    res.json(data);
+    res.render('todo', {test: data});
   });
 
   app.delete('/todo/:item', (req, res) => {
