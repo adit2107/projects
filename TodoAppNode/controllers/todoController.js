@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */ 
 // var data = [{
 //   item: 'take dog'
 // }, {
