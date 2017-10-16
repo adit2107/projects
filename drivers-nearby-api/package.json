@@ -1,0 +1,16 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "REST",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "adit",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.1",
+    "mongoose": "^4.12.2"
+  }
+}
