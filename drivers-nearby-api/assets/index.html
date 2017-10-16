@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<head>
+  <title>Find nearby drivers</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Manuale" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" type="text/css">
+</head>
+
+<body>
+  <h1 class="title">Drivers for hire - REST API</h1>
+  <div id="container">
+    <h2>Find drivers nearby</h2>
+    <div id="drivers">
+    </div>
+  </div>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>﻿
+<!-- Create React Component -->
+        <script type="text/babel">
+        var Drivers = React.createClass({
+            getInitialState: function(){
+                return({
+                    drivers: []
+                });
+            },
+            render: function(){
+                var drivers = this.state.drivers;
+                drivers = drivers.map(function(driver, index){
+                    return(
+                        <li key={index}>
+                            <span className={driver.obj.availability}></span>
+                            <span className="name">{driver.obj.name}</span>
+                            <span className="rank">{driver.obj.rating}</span>
+                            <span className="dist">{Math.floor(driver.dis / 1000)} km</span>
+                        </li>
+                    );
+                });
+                return(
+                    <div id="driver-container">
+                        <form id="search" onSubmit={this.handleSubmit}>
+                            <label>Enter your Latitude:</label>
+                            <input type="text" ref="lat" placeholder="latitude" required />
+                            <label>Enter your Longitude:</label>
+                            <input type="text" ref="lng" placeholder="longitude" required />
+                            <input type="submit" value="Find drivers" />
+                        </form>
+                        <ul>{drivers}</ul>
+                    </div>
+                );
+            },
+            handleSubmit: function(e){
+                e.preventDefault();
+                var lng = this.refs.lng.value;
+                var lat = this.refs.lat.value;
+                fetch('/api/drivers?lng=' + lng + '&lat=' + lat).then(function(data){
+                    return data.json();
+                }).then( json => {
+                    this.setState({
+                        drivers: json
+                    });
+                    console.log(json);
+                });
+            }
+        });
+        ReactDOM.render(<Drivers />, document.getElementById('drivers'));
+        </script>
+</body>
+
+</html>
