@@ -3,11 +3,11 @@ const express = require('express');
 const app = express();
 
 app.get('/', (req,res,next) =>{
-  res.send('INDEX');
+  res.render('index');
 });
 
 app.get('/about', (req,res,next) =>{
-  res.send('ABOUT');
+  res.render('about');
 });
 
 module.exports = app;

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Number Facts</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+  <style>
+    #factDiv {
+      display: none;
+    }
+  </style>
+
+</head>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <div class="card bg-info text-white mt-5 p-4">
+          <h2>Number facts</h2>
+          <p>Enter a number and get a fun fact!</p>
+          <input type="number" class="form-control form-control-lg" id="num" placeholder="Enter any number" required/>
+          <div class="mt-4 card-body" id="factDiv">
+            <h4 class="card-title">Here is a fun fact for the number <span id="numDisplay"></span></h4>
+            <p id="fact" class="card-subtitle"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    let factDiv = document.querySelector("#factDiv");
+    let fact = document.getElementById('fact');
+
+    let num = document.querySelector("input");
+    num.addEventListener("input", getFactsFetch);
+    //
+    // function getFacts(){
+    //   let numValue = num.value;
+    //   let xhr = new XMLHttpRequest();
+    //
+    //   xhr.open("GET", "http://numbersapi.com/"+numValue);
+    //   xhr.onload = function(){
+    //     if(this.status === 200){
+    //     factDiv.style.display = "block";
+    //     numDisplay.innerText = numValue;
+    //     fact.innerText = this.responseText;
+    //     }
+    //   }
+    //   xhr.send();
+    // }
+
+    // Using fetch API
+
+    function getFactsFetch(){
+      let number = num.value;
+
+      fetch('http://numbersapi.com/'+number).then(response => (response.text()))
+      .then(data => {
+        if(number != ' '){
+          factDiv.style.display = "block";
+          numDisplay.innerText = number;
+          fact.innerText = data;
+        }
+      }).catch(err => console.log(err));
+    }
+
+  </script>
+
+</body>
+
+</html>
