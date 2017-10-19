@@ -35,7 +35,7 @@ app.get('/ideas/add', (req,res,next) =>{
 });
 
 app.post('/ideas', (req,res,next) =>{
-  let errors = [];
+  let errors = [ ];
 
   if(!req.body.ideaTitle){
     errors.push({text:"Please add a title"});
