@@ -13,9 +13,6 @@ mongoose.connect('mongodb://localhost/ideajot-dev', {
   useMongoClient: true
 }).then(() => console.log("MongoDB is up and runnin!")).catch((err) => console.log(err));
 
-// Importing the model
-require('./models/Idea');
-const Idea = mongoose.model('ideas');
 
 //Handlebars middleware
 routes.engine('handlebars', exphbs({
