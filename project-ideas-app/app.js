@@ -1,5 +1,5 @@
 /* jshint esversion: 6 */
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8000;
 const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 // routes exported
