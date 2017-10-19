@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 // Importing the model
 require('../models/Idea');
 const Idea = mongoose.model('ideas');
@@ -68,5 +71,25 @@ app.get('/ideas/edit/:id', (req,res,next) => {
   });
 });
 
+// editing the idea form
+app.put('/ideas/:id', (req,res) =>{
+  Idea.findOne({
+    _id: req.params.id
+  }).then(idea => {
+    idea.title = req.body.ideaTitle;
+    idea.details = req.body.details;
+    idea.save()
+    .then(idea =>{
+      res.redirect('/ideas');
+    });
+  });
+});
+
+//deleting ideas
+app.delete('/ideas/:id', (req,res) =>{
+  Idea.remove({_id: req.params.id}).then(() => {
+    res.redirect('/ideas');
+  });
+});
 
 module.exports = app;

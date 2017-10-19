@@ -3,7 +3,16 @@
   <h4 class="card-title">{{title}}</h4>
   <p>{{details}}</p>
   <a class="btn btn-dark" href="/ideas/edit/{{_id}}">Edit</a>
+  <form class="mt-2" action="/ideas/{{_id}}?_method=DELETE" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="submit" class="btn btn-danger btn-block mt-2" value="Delete">
+  </form>
 </div>
 {{else}}
-<p>No ideas added yet</p>
+<div class="card text-center">
+  <div class="card-body">
+    <h4 class="card-title">There's nothing here.</h4>
+    <a href="/ideas/add" class="btn btn-dark mt-4">Add some ideas!</a>
+  </div>
+</div>
 {{/each}}
