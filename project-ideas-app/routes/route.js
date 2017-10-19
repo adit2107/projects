@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 
+const session = require('express-session');
+
 // Importing the model
 require('../models/Idea');
 const Idea = mongoose.model('ideas');
