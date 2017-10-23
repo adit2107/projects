@@ -1,17 +1,20 @@
 /* jshint esversion:6 */
 const express = require('express');
-const app = express();
+
+// router
+const router = express.Router();
+
 // requiring mongoose
 const mongoose = require('mongoose');
 
 //body parser middleware
 const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 // method override module to use put and delete along with post
 const methodOverride = require('method-override');
-app.use(methodOverride('_method'));
+router.use(methodOverride('_method'));
 
 // using exp session and connect flash for msgs
 const session = require('express-session');
@@ -23,31 +26,22 @@ const Idea = mongoose.model('ideas');
 
 // ALL ROUTES BEGIN HERE
 // Session module for connect flash
-app.use(session({
+router.use(session({
   secret: 'secret',
   resave: true,
   saveUninitialized: true,
 }));
 // Using connect flash
-app.use(flash());
+router.use(flash());
 // Setting global variables
-app.use((req,res,next) =>{
+router.use((req,res,next) =>{
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
   next();
 });
 
-// Route handling below
-app.get('/', (req,res,next) =>{
-  res.render('index');
-});
-
-app.get('/about', (req,res,next) =>{
-  res.render('about');
-});
-
-app.get('/ideas', (req,res,next) =>{
+router.get('/', (req,res,next) =>{
   Idea.find({}).sort({date:'desc'})
   .then(ideas => {
     res.render('ideas/ideasmain', {
@@ -56,12 +50,12 @@ app.get('/ideas', (req,res,next) =>{
   });
 });
 
-app.get('/ideas/add', (req,res,next) =>{
+router.get('/add', (req,res,next) =>{
   res.render('ideas/add');
 });
 
 // Adding new idea form
-app.post('/ideas', (req,res,next) =>{
+router.post('/', (req,res,next) =>{
   let errors = [];
 
   if(!req.body.ideaTitle){
@@ -89,7 +83,7 @@ app.post('/ideas', (req,res,next) =>{
 });
 
 // getting idea updating page
-app.get('/ideas/edit/:id', (req,res,next) => {
+router.get('/edit/:id', (req,res,next) => {
   Idea.findOne({
     _id: req.params.id
   }).then(idea => {
@@ -100,7 +94,7 @@ app.get('/ideas/edit/:id', (req,res,next) => {
 });
 
 // updating the idea form
-app.put('/ideas/:id', (req,res) =>{
+router.put('/:id', (req,res) =>{
   Idea.findOne({
     _id: req.params.id
   }).then(idea => {
@@ -115,7 +109,7 @@ app.put('/ideas/:id', (req,res) =>{
 });
 
 // deleting idea form
-app.delete('/ideas/:id', (req,res) =>{
+router.delete('/:id', (req,res) =>{
   Idea.remove({_id: req.params.id}).then(() => {
     req.flash('error_msg', 'Deleted idea');
     res.redirect('/ideas');
@@ -123,8 +117,4 @@ app.delete('/ideas/:id', (req,res) =>{
 });
 
 
-
-
-
-
-module.exports = app;
+module.exports = router;
