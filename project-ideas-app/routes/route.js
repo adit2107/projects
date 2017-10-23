@@ -17,7 +17,6 @@ const methodOverride = require('method-override');
 router.use(methodOverride('_method'));
 
 // using exp session and connect flash for msgs
-const session = require('express-session');
 const flash = require('connect-flash');
 
 // Importing the model
@@ -25,21 +24,6 @@ require('../models/Idea');
 const Idea = mongoose.model('ideas');
 
 // ALL ROUTES BEGIN HERE
-// Session module for connect flash
-router.use(session({
-  secret: 'secret',
-  resave: true,
-  saveUninitialized: true,
-}));
-// Using connect flash
-router.use(flash());
-// Setting global variables
-router.use((req,res,next) =>{
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
 
 router.get('/', (req,res,next) =>{
   Idea.find({}).sort({date:'desc'})

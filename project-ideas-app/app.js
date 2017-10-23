@@ -1,18 +1,45 @@
 /* jshint esversion: 6 */
 const port = process.env.PORT || 8000;
-const mongoose = require('mongoose');
-const exphbs = require('express-handlebars');
 const express = require('express');
 const app = express();
-// app exported
+const session = require('express-session');
+const mongoose = require('mongoose');
+const exphbs = require('express-handlebars');
+const flash = require('connect-flash');
+const passport = require('passport');
 
 // Global promise
 mongoose.Promise = global.Promise;
 
 // connecting to mongoose
-mongoose.connect('mongodb://localhost/ideajot-dev', {
+mongoose.connect('mongodb://localhost/ideapad-dev', {
   useMongoClient: true
 }).then(() => console.log("MongoDB is up and runnin!")).catch((err) => console.log(err));
+
+// Session module for connect flash
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true,
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+app.use(flash());
+
+// Setting global variables
+app.use((req,res,next) =>{
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
+
+// Passport
+require('./config/passport')(passport);
 
 //Handlebars middleware
 app.engine('handlebars', exphbs({

@@ -1,5 +1,12 @@
 <div class="jumbotron text-center">
-  <h1 class="display-3">Welcome</h1>
-  <p class="text-muted">Take down your project ideas in one click.</p>
-  <a class="btn btn-lg btn-dark" href="/ideas/add">Add an idea</a>
+  <h1 class="display-3">Welcome <span>{{user.name}}</span></h1>
+  {{#if user}}
+  <a class="btn btn-lg btn-dark mt-2" href="/ideas">My Ideas</a>
+  {{else}}
+  <p class="lead">Take down your project ideas in one click.</p>
+  <a class="btn btn-lg btn-primary" href="/user/register">Get Started</a>
+  <hr class="my-4">
+  <p class="mt-4">Already have an account?</p>
+  <a href="/user/login" class="btn btn-dark">Login</a>
+  {{/if}}
 </div>
