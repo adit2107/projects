@@ -12,16 +12,40 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 // Importing the model
-require('../models/Idea');
-const Idea = mongoose.model('ideas');
+require('../models/User');
+const User = mongoose.model('users');
 
 // User registration and login
+router.post('/register', (req,res,next) =>{
+  var errors = [];
+
+  if(req.body.password != req.body.password2){
+    errors.push({text: 'Passwords do not match.'});
+  }else if((req.body.password.length && req.body.password2.length) < 4){
+    errors.push({text:'Password length must be larger than 4 characters.'});
+  }
+
+  if(errors.length > 0){
+    res.render('users/register', {
+      errors: errors,
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      password2: req.body.password2
+    });
+  }else{
+    res.send('passed');
+  }
+});
+
 router.get('/register', (req,res,next) =>{
-  res.send("register page");
+  res.render('users/register');
 });
 
 router.get('/login', (req,res,next) =>{
-  res.send("login page");
+  res.render('users/login');
 });
+
+
 
 module.exports = router;

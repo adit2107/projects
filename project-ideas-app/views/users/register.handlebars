@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card card-body">
+        <h3 class="text-center">Register Account</h3>
+        <form method="post" action="/user/register">
+          <fieldset class="form-group">
+            <label for="password">Name</label>
+            <input type="text" class="form-control" name="name" value="{{name}}" required/>
+          </fieldset>
+          <fieldset class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" name="email" value="{{email}}" required/>
+          </fieldset>
+          <fieldset class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" value= "{{password}}"r equired/>
+          </fieldset>
+          <fieldset class="form-group">
+            <label for="password2">Confirm password</label>
+            <input type="password" class="form-control" name="password2" value = "{{password2}}" required/>
+          </fieldset>
+          <button class="btn btn-primary" type="submit">Register</button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
