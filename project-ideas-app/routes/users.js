@@ -15,6 +15,8 @@ router.use(bodyParser.urlencoded({
 }));
 router.use(bodyParser.json());
 
+const {ensureAuthenticated} = require('../helpers/auth');
+
 // Passport module
 const passport = require('passport');
 
